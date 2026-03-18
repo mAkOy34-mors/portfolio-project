@@ -1,0 +1,16 @@
+{% load static %}
+<nav class="sticky top-0 z-50 bg-white/70 dark:bg-gray-900/70 backdrop-blur-md shadow-sm">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <a href="/" class="text-2xl font-bold text-teal-600 dark:text-teal-400">
+            {% if profile %}{{ profile.name|default:"John Doe" }}{% else %}John Doe{% endif %}
+        </a>
+        <ul class="flex space-x-6 text-sm font-medium">
+            <li><a href="/" class="nav-link {% if request.path == '/' %}active{% endif %}">Home</a></li>
+            <li><a href="/about/" class="nav-link {% if '/about/' in request.path %}active{% endif %}">About</a></li>
+            <li><a href="/skills/" class="nav-link {% if '/skills/' in request.path %}active{% endif %}">Skills</a></li>
+            <li><a href="/projects/" class="nav-link {% if '/projects/' in request.path %}active{% endif %}">Projects</a></li>
+            <li><a href="/education/" class="nav-link {% if '/education/' in request.path %}active{% endif %}">Education</a></li>
+            <li><a href="/contact/" class="nav-link {% if '/contact/' in request.path %}active{% endif %}">Contact</a></li>
+        </ul>
+    </div>
+</nav>

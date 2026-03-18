@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="py-20 bg-white dark:bg-gray-900">
+    <div class="container mx-auto px-4">
+        <h1 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">Education</h1>
+        <div class="relative wrap overflow-hidden p-10 h-full">
+            <!-- Vertical line (hidden on mobile) -->
+            <div class="hidden md:block border-2-2 absolute border-opacity-20 border-gray-700 dark:border-gray-300 h-full border left-1/2"></div>
+
+            {% for edu in educations %}
+            <div class="mb-8 flex flex-col md:flex-row justify-between items-center w-full {% if forloop.counter|divisibleby:2 %}md:flex-row-reverse{% endif %}">
+                <div class="hidden md:block order-1 w-5/12"></div>
+                <div class="z-20 flex items-center order-1 bg-teal-600 shadow-xl w-8 h-8 rounded-full">
+                    <h1 class="mx-auto font-semibold text-lg text-white">{{ forloop.counter }}</h1>
+                </div>
+                <div class="order-1 bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm rounded-xl shadow-xl w-full md:w-5/12 px-6 py-4 border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition">
+                    <h3 class="mb-2 font-bold text-gray-800 dark:text-white text-xl">{{ edu.institution }}</h3>
+                    <p class="text-sm text-gray-600 dark:text-gray-300">{{ edu.degree }}</p>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">{{ edu.start_year }} - {{ edu.end_year|default:"Present" }}</p>
+                    <p class="text-sm leading-snug tracking-wide text-gray-900 dark:text-gray-200 mt-2">{{ edu.description }}</p>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">No education entries yet. Add them in the admin.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

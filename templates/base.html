@@ -1,0 +1,158 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{% block title %}Senior Full Stack Developer | 20+ Years Experience{% endblock %}</title>
+    
+    <!-- SEO & Meta Tags -->
+    <meta name="description" content="{% block meta_description %}Portfolio of a senior full stack developer with 20+ years of experience building enterprise solutions, specializing in scalable architecture and modern web technologies.{% endblock %}">
+    <meta name="author" content="Senior Full Stack Developer">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{% block og_title %}Senior Full Stack Developer Portfolio{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Building enterprise-grade solutions with 20+ years of expertise.{% endblock %}">
+    <meta property="og:image" content="{% static 'img/og-image.jpg' %}">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="{% block twitter_title %}Senior Full Stack Developer Portfolio{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Expertise in enterprise architecture and full-stack development.{% endblock %}">
+
+    <!-- Preconnect for Performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+
+    <!-- Google Fonts (Inter & Plus Jakarta Sans for modern feel) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS with Custom Configuration -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'Plus Jakarta Sans', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    
+    <!-- Critical Inline CSS for Page Loader & Scrollbar -->
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: #0d9488; 
+            border-radius: 5px;
+            border: 3px solid transparent;
+            background-clip: content-box;
+        }
+        
+        /* Page Loader Styles */
+        #page-loader {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s;
+        }
+        .dark #page-loader { background: #111827; }
+        .loader-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0d9488;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .loader-hidden { opacity: 0; visibility: hidden; }
+    </style>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'apple-touch-icon.png' %}">
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300 font-sans selection:bg-teal-500/30">
+    
+    <!-- Page Loader -->
+    <div id="page-loader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <!-- Header -->
+    {% include 'partials/header.html' %}
+
+    <!-- Main Content Area -->
+    <main id="main-content" class="min-h-screen">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    {% include 'partials/footer.html' %}
+
+    <!-- Floating Utilities (Dark Mode, Back to Top) -->
+    <div class="fixed bottom-6 right-6 flex flex-col gap-3 z-50">
+        {% include 'partials/dark_mode_toggle.html' %}
+        <button id="back-to-top" class="p-3 bg-teal-600 text-white rounded-full shadow-lg hover:bg-teal-700 transition-all opacity-0 translate-y-10" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+            <i class="fas fa-arrow-up"></i>
+        </button>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="{% static 'js/main.js' %}"></script>
+    
+    <!-- Inline Helper Scripts -->
+    <script>
+        // Page Loader Logic
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('page-loader');
+            loader.classList.add('loader-hidden');
+        });
+
+        // Back to Top Visibility
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('back-to-top');
+            if (window.scrollY > 500) {
+                btn.classList.remove('opacity-0', 'translate-y-10');
+            } else {
+                btn.classList.add('opacity-0', 'translate-y-10');
+            }
+        });
+
+        // Dark Mode Initialization (Prevents Flash of Light Mode)
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</body>
+</html>
