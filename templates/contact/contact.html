@@ -1,46 +1,119 @@
 {% extends 'base.html' %}
-
+{% block title %}Contact{% endblock %}
 {% block content %}
-<section class="py-20 bg-white dark:bg-gray-900">
-    <div class="container mx-auto px-4 max-w-2xl">
-        <h1 class="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">Get In Touch</h1>
-        {% if messages %}
-            {% for message in messages %}
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">{{ message }}</div>
-            {% endfor %}
-        {% endif %}
 
-        <div class="bg-white/30 dark:bg-gray-800/30 backdrop-blur-md rounded-xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
-            <form method="post" class="space-y-6">
-                {% csrf_token %}
-                {% for field in form %}
-                <div>
-                    <label for="{{ field.id_for_label }}" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{{ field.label }}</label>
-                    {{ field }}
-                    {% if field.errors %}
-                    <p class="text-red-500 text-xs mt-1">{{ field.errors.0 }}</p>
-                    {% endif %}
-                </div>
-                {% endfor %}
-                <button type="submit" class="w-full bg-teal-600 text-white py-3 rounded-lg hover:bg-teal-700 transition transform hover:-translate-y-1 hover:shadow-lg">Send Message</button>
-            </form>
-        </div>
+<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">Get In Touch</span>
+    <h1 class="text-5xl md:text-6xl font-black font-display tracking-tight mb-3">Contact Me</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg">Have a project in mind? Let's build something together.</p>
+  </div>
+</div>
 
-        <!-- Social Links -->
-        <div class="mt-12 text-center">
-            <h2 class="text-2xl font-semibold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">Connect with me</h2>
-            <div class="flex justify-center space-x-6">
-                {% if profile and profile.github_url %}
-                <a href="{{ profile.github_url }}" target="_blank" rel="noopener" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition transform hover:scale-110"><i class="fab fa-github fa-2x"></i></a>
-                {% endif %}
-                {% if profile and profile.linkedin_url %}
-                <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition transform hover:scale-110"><i class="fab fa-linkedin fa-2x"></i></a>
-                {% endif %}
-                {% if profile and profile.email %}
-                <a href="mailto:{{ profile.email }}" class="text-gray-600 dark:text-gray-400 hover:text-teal-600 dark:hover:text-teal-400 transition transform hover:scale-110"><i class="fas fa-envelope fa-2x"></i></a>
-                {% endif %}
+<section class="py-20 bg-white dark:bg-gray-950">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
+      <!-- Info side -->
+      <div class="lg:col-span-2 animate-on-scroll">
+        <h2 class="text-2xl font-bold font-display mb-4">Let's Build Something Together</h2>
+        <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed mb-8">
+          I'm currently available for senior engineering roles, technical advisory, and fractional CTO engagements.
+          I respond to all inquiries within 24 hours.
+        </p>
+
+        <div class="space-y-3 mb-8">
+
+          {% if profile and profile.email %}
+          <a href="mailto:{{ profile.email }}"
+             class="flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 hover:border-teal-400/60 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <i class="fas fa-envelope text-teal-600 dark:text-teal-400 text-sm"></i>
             </div>
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-0.5">Email</div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ profile.email }}</div>
+            </div>
+          </a>
+          {% endif %}
+
+          {% if profile and profile.github_url %}
+          <a href="{{ profile.github_url }}" target="_blank" rel="noopener"
+             class="flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 hover:border-teal-400/60 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <i class="fab fa-github text-gray-700 dark:text-gray-300 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-0.5">GitHub</div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ profile.github_url }}</div>
+            </div>
+          </a>
+          {% endif %}
+
+          {% if profile and profile.linkedin_url %}
+          <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener"
+             class="flex items-center gap-4 p-4 rounded-xl border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900 hover:border-teal-400/60 hover:shadow-md transition-all group">
+            <div class="w-10 h-10 rounded-xl bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+              <i class="fab fa-linkedin text-blue-600 dark:text-blue-400 text-sm"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-0.5">LinkedIn</div>
+              <div class="text-sm font-medium text-gray-700 dark:text-gray-300">{{ profile.linkedin_url }}</div>
+            </div>
+          </a>
+          {% endif %}
+
         </div>
+
+        <div class="flex items-center gap-2 text-sm text-gray-400">
+          <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+          Average response time: <span class="font-semibold text-gray-600 dark:text-gray-300">under 24 hours</span>
+        </div>
+      </div>
+      <!-- end info side -->
+
+      <!-- Form side -->
+      <div class="lg:col-span-3 animate-on-scroll contact-form-col">
+        <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 sm:p-8">
+          <form method="post" class="space-y-5" novalidate>
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-field {% if field.errors %}has-error{% endif %}">
+              <label for="{{ field.id_for_label }}"
+                     class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
+                {{ field.label }}
+              </label>
+              {{ field }}
+              {% if field.errors %}
+              <p class="mt-1.5 text-xs text-red-600 dark:text-red-400 flex items-center gap-1">
+                <i class="fas fa-exclamation-circle"></i> {{ field.errors.0 }}
+              </p>
+              {% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit"
+              class="w-full py-3 px-6 rounded-xl font-semibold text-sm bg-teal-600 text-white
+                     hover:bg-teal-700 shadow-lg shadow-teal-500/25 hover:shadow-xl hover:shadow-teal-500/30
+                     transition-all duration-200 hover:-translate-y-0.5 flex items-center justify-center gap-2">
+              <i class="fas fa-paper-plane text-xs"></i> Send Message
+            </button>
+
+          </form>
+        </div>
+      </div>
+      <!-- end form side -->
+
     </div>
+  </div>
 </section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  var formCol = document.querySelector('.contact-form-col');
+  if (formCol) formCol.style.transitionDelay = '100ms';
+</script>
 {% endblock %}

@@ -1,37 +1,152 @@
 {% extends 'base.html' %}
-
+{% block title %}Skills{% endblock %}
 {% block content %}
-<section class="py-20 bg-white dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">Technical Skills</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-            {% for category in categories %}
-            <div class="bg-white/30 dark:bg-gray-800/30 backdrop-blur-sm p-6 rounded-xl shadow border border-gray-200 dark:border-gray-700">
-                <h2 class="text-2xl font-semibold mb-4 flex items-center"><i class="fas fa-code mr-2 text-teal-600"></i>{{ category.name }}</h2>
-                <div class="space-y-4">
-                    {% for skill in category.skills.all %}
-                    <div class="group">
-                        <div class="flex justify-between mb-1">
-                            <span class="font-medium">{{ skill.name }}</span>
-                            <span class="text-teal-600">{{ skill.proficiency }}%</span>
-                        </div>
-                        <div class="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
-                            <div class="bg-teal-600 h-2.5 rounded-full transition-all duration-500 group-hover:bg-teal-500 group-hover:shadow-lg" style="width: {{ skill.proficiency }}%"></div>
-                        </div>
-                        <!-- Optional icon hover effect -->
-                        <div class="mt-1 text-sm text-gray-500 opacity-0 group-hover:opacity-100 transition">
-                            <i class="fas fa-star text-yellow-400"></i> Proficient
-                        </div>
-                    </div>
-                    {% empty %}
-                    <p>No skills in this category yet.</p>
-                    {% endfor %}
-                </div>
-            </div>
-            {% empty %}
-            <p class="col-span-2 text-center">No skill categories found. Add them in the admin.</p>
-            {% endfor %}
+
+<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none skills-grid-bg"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
+      Technical Expertise
+    </span>
+    <h1 class="text-5xl md:text-6xl font-black font-display tracking-tight mb-3">Skills & Stack</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg">20+ years of battle-tested tools, frameworks, and platforms.</p>
+  </div>
+</div>
+
+<!-- Skills grid -->
+<section class="py-20 bg-white dark:bg-gray-950">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="skills-grid">
+
+      {% for category in categories %}
+      <div class="skill-category-card bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-6 hover:border-teal-400/50 hover:shadow-lg transition-all animate-on-scroll">
+
+        <div class="flex items-center gap-3 mb-6">
+          <div class="w-10 h-10 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center">
+            <i class="fas {{ category.icon|default:'fa-code' }} text-teal-600 dark:text-teal-400 text-sm"></i>
+          </div>
+          <h2 class="font-bold font-display text-xl text-gray-900 dark:text-white">{{ category.name }}</h2>
         </div>
+
+        <div class="space-y-4">
+          {% for skill in category.skills.all %}
+          <div class="skill-item">
+            <div class="flex justify-between items-center mb-1.5">
+              <span class="text-sm font-medium text-gray-800 dark:text-gray-200">{{ skill.name }}</span>
+              <span class="text-xs font-bold font-mono text-teal-600 dark:text-teal-400">{{ skill.proficiency }}%</span>
+            </div>
+            <div class="relative h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+              <div class="skill-fill absolute top-0 left-0 h-full rounded-full bg-gradient-to-r from-teal-500 to-indigo-500 transition-all duration-1000 ease-out"
+                   data-width="{{ skill.proficiency }}"></div>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-sm text-gray-400">No skills in this category yet.</p>
+          {% endfor %}
+        </div>
+
+      </div>
+      {% empty %}
+      <p class="col-span-2 text-center text-gray-400 py-12">No skill categories found. Add them in the admin.</p>
+      {% endfor %}
+
     </div>
+  </div>
 </section>
+
+<!-- Engineering Philosophy -->
+<section class="py-20 bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-14 animate-on-scroll">
+      <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
+        Approach
+      </span>
+      <h2 class="text-4xl font-black font-display tracking-tight">Engineering Philosophy</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+      <div class="philosophy-card p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all text-center animate-on-scroll">
+        <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-drafting-compass text-teal-600 dark:text-teal-400"></i>
+        </div>
+        <h3 class="font-bold font-display mb-2">Design First</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Architecture decisions upfront prevent years of technical debt.</p>
+      </div>
+
+      <div class="philosophy-card p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all text-center animate-on-scroll">
+        <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-vial text-teal-600 dark:text-teal-400"></i>
+        </div>
+        <h3 class="font-bold font-display mb-2">Test Everything</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Coverage gates, CI pipelines, and automated QA are standard.</p>
+      </div>
+
+      <div class="philosophy-card p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all text-center animate-on-scroll">
+        <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-tachometer-alt text-teal-600 dark:text-teal-400"></i>
+        </div>
+        <h3 class="font-bold font-display mb-2">Measure to Improve</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Observability through metrics, tracing, and structured logging.</p>
+      </div>
+
+      <div class="philosophy-card p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all text-center animate-on-scroll">
+        <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center mx-auto mb-4">
+          <i class="fas fa-book-open text-teal-600 dark:text-teal-400"></i>
+        </div>
+        <h3 class="font-bold font-display mb-2">Document as You Build</h3>
+        <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed">Documentation is a first-class deliverable, not an afterthought.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Hero grid background */
+  var skillsGrid = document.querySelector('.skills-grid-bg');
+  if (skillsGrid) {
+    skillsGrid.style.backgroundImage = 'linear-gradient(rgba(13,148,136,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,0.04) 1px,transparent 1px)';
+    skillsGrid.style.backgroundSize = '48px 48px';
+  }
+
+  /* Skill category card stagger delay */
+  document.querySelectorAll('.skill-category-card').forEach(function (card, index) {
+    card.style.transitionDelay = (index * 100) + 'ms';
+  });
+
+  /* Philosophy card stagger delay */
+  document.querySelectorAll('.philosophy-card').forEach(function (card, index) {
+    card.style.transitionDelay = (index * 100) + 'ms';
+  });
+
+  /* Animate skill bars when scrolled into view */
+  var skillObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.querySelectorAll('.skill-fill').forEach(function (bar) {
+          bar.style.width = bar.dataset.width + '%';
+        });
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.skill-category-card').forEach(function (card) {
+    skillObserver.observe(card);
+  });
+
+  /* Also trigger for items already visible on load */
+  setTimeout(function () {
+    document.querySelectorAll('.skill-fill').forEach(function (bar) {
+      var rect = bar.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        bar.style.width = bar.dataset.width + '%';
+      }
+    });
+  }, 500);
+</script>
 {% endblock %}

@@ -1,39 +1,125 @@
 {% extends 'base.html' %}
-
+{% block title %}Projects{% endblock %}
 {% block content %}
-<section class="py-20 bg-white dark:bg-gray-900">
-    <div class="container mx-auto px-4">
-        <h1 class="text-4xl font-bold text-center mb-12 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">Projects</h1>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {% for project in projects %}
-            <div class="group relative bg-white/30 dark:bg-gray-800/30 backdrop-blur-md rounded-xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-200 dark:border-gray-700">
-                <div class="relative overflow-hidden h-48">
-                    {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
-                    {% else %}
-                    <div class="w-full h-full bg-gray-300 dark:bg-gray-700 flex items-center justify-center">No Image</div>
-                    {% endif %}
-                    <div class="absolute inset-0 bg-gradient-to-t from-teal-600/70 to-transparent opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                </div>
-                <div class="p-6">
-                    <h3 class="text-2xl font-semibold mb-2">{{ project.title }}</h3>
-                    <p class="text-gray-600 dark:text-gray-400 mb-4">{{ project.description|truncatechars:100 }}</p>
-                    <p class="text-sm text-gray-500 dark:text-gray-500 mb-4"><strong>Tech:</strong> {{ project.tech_stack }}</p>
-                    <div class="flex justify-between items-center">
-                        <a href="{% url 'project_detail' project.pk %}" class="text-teal-600 dark:text-teal-400 hover:underline inline-flex items-center">Details <i class="fas fa-arrow-right ml-1 text-sm"></i></a>
-                        <div class="space-x-2">
-                            <a href="{{ project.github_link }}" target="_blank" rel="noopener" class="text-sm bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded hover:bg-teal-600 hover:text-white transition"><i class="fab fa-github"></i></a>
-                            {% if project.live_demo_link %}
-                            <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener" class="text-sm bg-gray-200 dark:bg-gray-700 px-3 py-1 rounded hover:bg-teal-600 hover:text-white transition"><i class="fas fa-external-link-alt"></i></a>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <p class="text-center col-span-3">No projects yet. Add them in the admin.</p>
-            {% endfor %}
+
+<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
+  <div class="absolute inset-0 pointer-events-none projects-grid-bg"></div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
+      Portfolio
+    </span>
+    <h1 class="text-5xl md:text-6xl font-black font-display tracking-tight mb-3">Projects</h1>
+    <p class="text-gray-500 dark:text-gray-400 text-lg">Enterprise systems, open-source tools, and platform engineering.</p>
+  </div>
+</div>
+
+<section class="py-20 bg-white dark:bg-gray-950">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="projects-grid">
+
+      {% for project in projects %}
+      <article class="project-card group relative flex flex-col bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-teal-500/50 dark:hover:border-teal-500/30 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 overflow-hidden animate-on-scroll">
+
+        <!-- Project image -->
+        <div class="relative h-48 overflow-hidden bg-gradient-to-br from-teal-500/10 to-indigo-500/10">
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}"
+               class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          {% else %}
+          <div class="w-full h-full flex items-center justify-center">
+            <i class="fas fa-cube text-5xl text-teal-300/50 dark:text-teal-700/50"></i>
+          </div>
+          {% endif %}
+          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+
+          <!-- Status badge -->
+          <div class="absolute top-3 right-3">
+            {% if project.status == 'live' %}
+            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/60 dark:text-green-400">
+              {{ project.get_status_display }}
+            </span>
+            {% elif project.status == 'development' %}
+            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/60 dark:text-yellow-400">
+              {{ project.get_status_display }}
+            </span>
+            {% else %}
+            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
+              {{ project.get_status_display }}
+            </span>
+            {% endif %}
+          </div>
         </div>
+        <!-- end image -->
+
+        <!-- Card body -->
+        <div class="flex flex-col flex-1 p-5">
+
+          <h3 class="font-bold font-display text-lg text-gray-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
+            {{ project.title }}
+          </h3>
+
+          <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4 flex-1">
+            {{ project.description|truncatechars:120 }}
+          </p>
+
+          <!-- Tech tags -->
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            {% for tech in project.tech_list|slice:":4" %}
+            <span class="px-2 py-0.5 text-xs font-semibold font-mono rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800/60">
+              {{ tech }}
+            </span>
+            {% endfor %}
+          </div>
+
+          <!-- Footer links -->
+          <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
+            <a href="{% url 'project_detail' project.slug %}"
+               class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-600 dark:text-teal-400 hover:gap-2.5 transition-all">
+              Case Study <i class="fas fa-arrow-right text-xs"></i>
+            </a>
+            <div class="flex gap-2">
+              {% if project.github_link %}
+              <a href="{{ project.github_link }}" target="_blank" rel="noopener"
+                 class="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:border-gray-400 transition-all text-sm">
+                <i class="fab fa-github"></i>
+              </a>
+              {% endif %}
+              {% if project.live_demo_link %}
+              <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener"
+                 class="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:text-teal-600 hover:border-teal-400 transition-all text-sm">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+        <!-- end card body -->
+
+      </article>
+
+      {% empty %}
+      <p class="col-span-3 text-center text-gray-400 py-16">No projects yet. Add them in the admin.</p>
+      {% endfor %}
+
     </div>
+  </div>
 </section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  /* Grid background for hero — avoids inline style attribute */
+  var heroBg = document.querySelector('.projects-grid-bg');
+  if (heroBg) {
+    heroBg.style.backgroundImage = 'linear-gradient(rgba(13,148,136,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,0.04) 1px,transparent 1px)';
+    heroBg.style.backgroundSize = '48px 48px';
+  }
+
+  /* Stagger delay for project cards — avoids inline style + template var */
+  document.querySelectorAll('.project-card').forEach(function (card, index) {
+    card.style.transitionDelay = (index * 100) + 'ms';
+  });
+</script>
 {% endblock %}

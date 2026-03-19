@@ -1,31 +1,94 @@
 {% extends 'base.html' %}
-
+{% block title %}{{ project.title }}{% endblock %}
 {% block content %}
-<section class="py-20 bg-white dark:bg-gray-900">
-    <div class="container mx-auto px-4 max-w-4xl">
-        <div class="bg-white/30 dark:bg-gray-800/30 backdrop-blur-md rounded-xl shadow-xl p-8 border border-gray-200 dark:border-gray-700">
-            <h1 class="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-teal-600 to-indigo-600">{{ project.title }}</h1>
-            {% if project.image %}
-            <div class="mb-8 rounded-lg overflow-hidden shadow-lg">
-                <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full object-cover">
-            </div>
-            {% endif %}
-            <p class="text-lg text-gray-700 dark:text-gray-300 leading-relaxed mb-8">{{ project.description }}</p>
 
-            <h2 class="text-2xl font-semibold mb-2">Tech Stack</h2>
-            <div class="flex flex-wrap gap-2 mb-8">
-                {% for tech in project.tech_list %}
-                <span class="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded-full text-sm hover:bg-teal-600 hover:text-white transition">{{ tech }}</span>
-                {% endfor %}
-            </div>
-
-            <div class="flex space-x-4">
-                <a href="{{ project.github_link }}" target="_blank" rel="noopener" class="bg-teal-600 text-white px-6 py-2 rounded hover:bg-teal-700 transition inline-flex items-center"><i class="fab fa-github mr-2"></i> GitHub Repository</a>
-                {% if project.live_demo_link %}
-                <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener" class="border border-teal-600 text-teal-600 dark:text-teal-400 px-6 py-2 rounded hover:bg-teal-600 hover:text-white transition inline-flex items-center"><i class="fas fa-external-link-alt mr-2"></i> Live Demo</a>
-                {% endif %}
-            </div>
-        </div>
+<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
+    <a href="{% url 'projects' %}" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-teal-600 transition-colors mb-6">
+      <i class="fas fa-arrow-left text-xs"></i> All Projects
+    </a>
+    <div class="flex items-center gap-3 mb-3">
+      <span class="px-2 py-0.5 rounded-full text-xs font-bold
+        {% if project.status == 'live' %}bg-green-100 text-green-700
+        {% elif project.status == 'development' %}bg-yellow-100 text-yellow-700
+        {% else %}bg-gray-100 text-gray-600{% endif %}">{{ project.get_status_display }}</span>
     </div>
+    <h1 class="text-4xl md:text-5xl font-black font-display tracking-tight mb-3">{{ project.title }}</h1>
+  </div>
+</div>
+
+<section class="py-16 bg-white dark:bg-gray-950">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+
+      <!-- Main -->
+      <div class="lg:col-span-2 animate-on-scroll">
+        {% if project.image %}
+        <div class="rounded-2xl overflow-hidden shadow-xl mb-8 border border-gray-200 dark:border-gray-800">
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full object-cover">
+        </div>
+        {% endif %}
+
+        <h2 class="text-2xl font-bold font-display mb-4">Project Overview</h2>
+        <div class="prose prose-gray dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+          {{ project.description }}
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="animate-on-scroll" style="transition-delay:0.1s">
+        <div class="sticky top-24 space-y-4">
+
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
+            <h3 class="font-bold font-display text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Tech Stack</h3>
+            <div class="flex flex-wrap gap-2">
+              {% for tech in project.tech_list %}
+              <span class="px-2.5 py-1 text-xs font-semibold font-mono rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800/60">{{ tech }}</span>
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
+            <h3 class="font-bold font-display text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Links</h3>
+            <div class="space-y-2">
+              {% if project.github_link %}
+              <a href="{{ project.github_link }}" target="_blank" rel="noopener"
+                 class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all">
+                <i class="fab fa-github"></i> View on GitHub
+              </a>
+              {% endif %}
+              {% if project.live_demo_link %}
+              <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener"
+                 class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all">
+                <i class="fas fa-external-link-alt"></i> Live Demo
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% if related %}
+    <div class="mt-20 animate-on-scroll">
+      <h2 class="text-2xl font-bold font-display mb-8">More Projects</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {% for rp in related %}
+        <a href="{% url 'project_detail' rp.slug %}"
+           class="flex flex-col p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800
+                  hover:border-teal-400/50 hover:shadow-lg transition-all hover:-translate-y-1">
+          <h3 class="font-bold font-display text-base text-gray-900 dark:text-white mb-2">{{ rp.title }}</h3>
+          <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed flex-1 mb-3">{{ rp.description|truncatechars:80 }}</p>
+          <div class="flex flex-wrap gap-1">
+            {% for tech in rp.tech_list|slice:":3" %}
+            <span class="px-1.5 py-0.5 text-xs font-mono rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400">{{ tech }}</span>
+            {% endfor %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </div>
 </section>
 {% endblock %}
