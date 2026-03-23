@@ -8,9 +8,10 @@ class ProjectAdmin(admin.ModelAdmin):
     list_filter = ('featured', 'created_at')
     search_fields = ('title', 'description', 'tech_stack')
     readonly_fields = ('created_at',)
+    prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'tech_stack', 'image')
+            'fields': ('title', 'slug', 'description', 'tech_stack', 'image')
         }),
         ('Links', {
             'fields': ('github_link', 'live_demo_link')
