@@ -1,0 +1,37 @@
+/* ═══════════════════════════════════════════════════════════════════
+   dark_mode_toggle.css — Styles for the floating dark mode button
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ── Floating Toggle Button ──────────────────────────────────────── */
+.theme-toggle-float {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid #e5e7eb;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #374151;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s ease;
+}
+
+html.dark .theme-toggle-float {
+  background: rgba(31, 41, 55, 0.9);
+  border-color: #374151;
+  color: #fbbf24;
+}
+
+.theme-toggle-float:hover {
+  transform: scale(1.1);
+  border-color: #0d9488;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+html.dark .theme-toggle-float:hover {
+  border-color: #2dd4bf;
+}

@@ -1,87 +1,84 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/about.css' %}">
+{% endblock %}
+
 {% block title %}About{% endblock %}
+
 {% block content %}
 
 <!-- Page Hero -->
-<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
-  <div class="absolute inset-0 pointer-events-none about-grid-bg"></div>
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
-    <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
-      Who I Am
-    </span>
-    <h1 class="text-5xl md:text-6xl font-black font-display tracking-tight mb-3">About Me</h1>
-    <p class="text-gray-500 dark:text-gray-400 text-lg">Senior engineer. Technical leader. Lifelong builder.</p>
+<div class="about-hero">
+  <div class="about-grid-bg"></div>
+  <div class="about-container animate-on-scroll">
+    <span class="about-badge">Who I Am</span>
+    <h1 class="about-hero-title">About Me</h1>
+    <p class="about-hero-sub">IT Student. Backend Developer in Progress. Always exploring.</p>
   </div>
 </div>
 
 <!-- Profile + Bio -->
-<section class="py-20 bg-white dark:bg-gray-950">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
+<section class="about-section">
+  <div class="about-container">
+    <div class="about-grid">
 
       <!-- Left: Profile card -->
       <div class="animate-on-scroll">
-        <div class="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 shadow-sm p-6 text-center sticky top-24">
+        <div class="profile-card">
 
           {% if profile and profile.profile_photo %}
-          <div class="relative group inline-block mb-4">
-            <div class="absolute inset-0 bg-gradient-to-br from-teal-500 to-indigo-600 rounded-full blur-xl opacity-30 group-hover:opacity-50 transition"></div>
-            <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}"
-                 class="relative w-40 h-40 rounded-full object-cover border-4 border-white dark:border-gray-800 shadow-xl mx-auto">
+          <div class="profile-photo-wrap">
+            <div class="profile-photo-glow"></div>
+            <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" class="profile-photo">
           </div>
           {% else %}
-          <div class="w-40 h-40 rounded-full bg-gradient-to-br from-teal-500/20 to-indigo-500/20 flex items-center justify-center mx-auto mb-4 border-4 border-white dark:border-gray-800">
-            <span class="text-4xl font-black text-teal-600 font-display">
-              {% if profile %}{{ profile.name|slice:":2" }}{% else %}AR{% endif %}
-            </span>
+          <div class="profile-photo-placeholder">
+            <span>{% if profile %}{{ profile.name|slice:":2" }}{% else %}AR{% endif %}</span>
           </div>
           {% endif %}
 
           {% if profile %}
-          <h2 class="font-bold font-display text-xl text-gray-900 dark:text-white">{{ profile.name }}</h2>
-          <p class="text-teal-600 dark:text-teal-400 text-sm font-semibold mt-1">{{ profile.title }}</p>
+          <h2 class="profile-name">{{ profile.name }}</h2>
+          <p class="profile-title">{{ profile.title }}</p>
           {% if profile.location %}
-          <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">
-            <i class="fas fa-map-marker-alt mr-1"></i>{{ profile.location }}
+          <p class="profile-location">
+            <i class="fas fa-map-marker-alt"></i> {{ profile.location }}
           </p>
           {% endif %}
           {% endif %}
 
-          <div class="flex justify-center gap-3 mt-4 mb-5">
+          <div class="profile-socials">
             {% if profile and profile.github_url %}
-            <a href="{{ profile.github_url }}" target="_blank" rel="noopener"
-               class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:text-gray-900 dark:hover:text-white hover:border-gray-400 transition-all text-sm">
+            <a href="{{ profile.github_url }}" target="_blank" rel="noopener" class="social-btn">
               <i class="fab fa-github"></i>
             </a>
             {% endif %}
             {% if profile and profile.linkedin_url %}
-            <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener"
-               class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:text-teal-600 hover:border-teal-400 transition-all text-sm">
+            <a href="{{ profile.linkedin_url }}" target="_blank" rel="noopener" class="social-btn">
               <i class="fab fa-linkedin"></i>
             </a>
             {% endif %}
             {% if profile and profile.email %}
-            <a href="mailto:{{ profile.email }}"
-               class="w-9 h-9 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center text-gray-500 hover:text-teal-600 hover:border-teal-400 transition-all text-sm">
+            <a href="mailto:{{ profile.email }}" class="social-btn">
               <i class="fas fa-envelope"></i>
             </a>
             {% endif %}
           </div>
 
-          <div class="grid grid-cols-3 gap-2 pt-4 border-t border-gray-100 dark:border-gray-800">
-            <div>
-              <div class="font-black text-2xl font-display text-gray-900 dark:text-white">
-                {% if profile %}{{ profile.years_experience }}{% else %}20{% endif %}+
-              </div>
-              <div class="text-xs text-gray-400 uppercase tracking-wider">Years</div>
+          <div class="profile-stats">
+            <div class="stat-item">
+              <div class="stat-number">3</div>
+              <div class="stat-label">Projects</div>
             </div>
-            <div>
-              <div class="font-black text-2xl font-display text-gray-900 dark:text-white">50+</div>
-              <div class="text-xs text-gray-400 uppercase tracking-wider">Projects</div>
+            <div class="stat-item">
+              <div class="stat-number">4+</div>
+              <div class="stat-label">Technologies</div>
             </div>
-            <div>
-              <div class="font-black text-2xl font-display text-gray-900 dark:text-white">12</div>
-              <div class="text-xs text-gray-400 uppercase tracking-wider">Countries</div>
+            <div class="stat-item">
+              <div class="stat-number">2</div>
+              <div class="stat-label">Frameworks</div>
             </div>
           </div>
 
@@ -89,72 +86,66 @@
       </div>
       <!-- end profile card -->
 
-      <!-- Right: Bio + pillars -->
-      <div class="lg:col-span-2 animate-on-scroll about-bio-col">
-        <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
-          Professional Summary
-        </span>
-        <h2 class="text-3xl font-black font-display tracking-tight mb-6">Engineering Excellence at Scale</h2>
+      <!-- Right: Bio -->
+      <div class="about-bio-col animate-on-scroll">
+        <span class="about-badge">Professional Summary</span>
+        <h2 class="bio-heading">From Java to Python — Growing One Stack at a Time</h2>
 
         {% if profile %}
-        <p class="text-gray-600 dark:text-gray-300 leading-relaxed text-base mb-6 whitespace-pre-line">
-          {{ profile.summary }}
-        </p>
+        <p class="bio-text">{{ profile.summary }}</p>
         {% endif %}
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+        <div class="pillars-grid">
 
-          <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
-            <div class="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-              <i class="fas fa-sitemap text-teal-600 dark:text-teal-400 text-sm"></i>
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <i class="fas fa-leaf"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm text-gray-900 dark:text-white">Systems Architecture</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Microservices, event-driven, distributed</div>
+              <div class="pillar-title">Java & Spring Boot</div>
+              <div class="pillar-sub">REST APIs, Spring MVC, JPA — learned in 2025</div>
             </div>
           </div>
 
-          <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
-            <div class="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-              <i class="fas fa-users text-teal-600 dark:text-teal-400 text-sm"></i>
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <i class="fas fa-database"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm text-gray-900 dark:text-white">Engineering Leadership</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Grew and led teams of up to 50 engineers</div>
+              <div class="pillar-title">MySQL</div>
+              <div class="pillar-sub">Relational DB used across 2025 projects</div>
             </div>
           </div>
 
-          <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
-            <div class="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-              <i class="fas fa-shield-alt text-teal-600 dark:text-teal-400 text-sm"></i>
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <i class="fab fa-python"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm text-gray-900 dark:text-white">Production Reliability</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">99.97% SLA, zero data loss record</div>
+              <div class="pillar-title">Python & Django</div>
+              <div class="pillar-sub">Exploring MVT, ORM & views in 2026</div>
             </div>
           </div>
 
-          <div class="flex items-start gap-3 p-4 rounded-xl border border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
-            <div class="w-10 h-10 rounded-lg bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-              <i class="fas fa-rocket text-teal-600 dark:text-teal-400 text-sm"></i>
+          <div class="pillar-card">
+            <div class="pillar-icon">
+              <i class="fas fa-server"></i>
             </div>
             <div>
-              <div class="font-semibold text-sm text-gray-900 dark:text-white">Product Impact</div>
-              <div class="text-xs text-gray-500 dark:text-gray-400 mt-0.5">Contributed to $42M+ ARR products</div>
+              <div class="pillar-title">PostgreSQL</div>
+              <div class="pillar-sub">Currently learning alongside Django</div>
             </div>
           </div>
 
         </div>
 
-        <div class="flex flex-wrap gap-3">
-          <a href="{% url 'contact' %}"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm bg-teal-600 text-white hover:bg-teal-700 shadow-lg shadow-teal-500/25 transition-all hover:-translate-y-0.5">
-            <i class="fas fa-envelope text-xs"></i> Get In Touch
+        <div class="bio-actions">
+          <a href="{% url 'contact' %}" class="btn-primary">
+            <i class="fas fa-envelope"></i> Get In Touch
           </a>
           {% if profile and profile.resume %}
-          <a href="{{ profile.resume.url }}" target="_blank" rel="noopener"
-             class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl font-semibold text-sm border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-teal-500 hover:text-teal-600 transition-all hover:-translate-y-0.5">
-            <i class="fas fa-download text-xs"></i> Download Resume
+          <a href="{{ profile.resume.url }}" target="_blank" rel="noopener" class="btn-outline">
+            <i class="fas fa-download"></i> Download Resume
           </a>
           {% endif %}
         </div>
@@ -167,45 +158,37 @@
 </section>
 
 <!-- Career Timeline -->
-<section class="py-20 bg-gray-50 dark:bg-gray-900">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="timeline-section">
+  <div class="about-container">
 
-    <div class="text-center mb-16 animate-on-scroll">
-      <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
-        Career
-      </span>
-      <h2 class="text-4xl font-black font-display tracking-tight">Work History</h2>
+    <div class="section-header animate-on-scroll">
+      <span class="about-badge">Journey</span>
+      <h2 class="section-title">My Learning Path</h2>
     </div>
 
-    <div class="space-y-4 max-w-4xl mx-auto">
+    <div class="timeline-list">
 
-      <div class="flex flex-col md:flex-row gap-6 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all animate-on-scroll">
-        <div class="md:w-1/4">
-          <span class="font-mono text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wide">2020 – Present</span>
-        </div>
-        <div class="md:w-3/4">
-          <h3 class="font-bold font-display text-lg text-gray-900 dark:text-white mb-1">Lead Architect · Enterprise Corp</h3>
-          <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Designed microservices architecture for a global banking platform serving millions of users. Reduced operational costs by 40%.</p>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-period">2026 – Present</div>
+        <div class="timeline-body">
+          <h3 class="timeline-role">Exploring Python & Django · PostgreSQL</h3>
+          <p class="timeline-desc">Diving into Python-based backend development with Django's MVT framework and PostgreSQL as the database, expanding beyond the Java ecosystem.</p>
         </div>
       </div>
 
-      <div class="flex flex-col md:flex-row gap-6 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all animate-on-scroll">
-        <div class="md:w-1/4">
-          <span class="font-mono text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wide">2015 – 2020</span>
-        </div>
-        <div class="md:w-3/4">
-          <h3 class="font-bold font-display text-lg text-gray-900 dark:text-white mb-1">Senior Full Stack Developer · TechInnovate</h3>
-          <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Led development of a SaaS product used by 500+ enterprises, improving platform performance by 40% through architectural refactoring.</p>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-period">2025</div>
+        <div class="timeline-body">
+          <h3 class="timeline-role">Java & Spring Boot Developer · MySQL</h3>
+          <p class="timeline-desc">Learned Java and Spring Boot by building 3 hands-on projects, working with RESTful APIs, Spring MVC, and MySQL for data persistence.</p>
         </div>
       </div>
 
-      <div class="flex flex-col md:flex-row gap-6 p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-teal-400/50 hover:shadow-lg transition-all animate-on-scroll">
-        <div class="md:w-1/4">
-          <span class="font-mono text-xs font-bold text-teal-600 dark:text-teal-400 uppercase tracking-wide">2010 – 2015</span>
-        </div>
-        <div class="md:w-3/4">
-          <h3 class="font-bold font-display text-lg text-gray-900 dark:text-white mb-1">Software Engineer · StartUp Labs</h3>
-          <p class="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">Built scalable web applications using Django and React, contributing to open-source tooling adopted by thousands of developers.</p>
+      <div class="timeline-item animate-on-scroll">
+        <div class="timeline-period">Present</div>
+        <div class="timeline-body">
+          <h3 class="timeline-role">IT Student · Aspiring Backend Developer</h3>
+          <p class="timeline-desc">Pursuing an IT degree with a passion for backend systems, continuously picking up new technologies and building real-world projects to grow my skills.</p>
         </div>
       </div>
 
@@ -214,30 +197,28 @@
 </section>
 
 <!-- Achievements -->
-<section class="py-20 bg-white dark:bg-gray-950">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<section class="achievements-section">
+  <div class="about-container">
 
-    <div class="text-center mb-16 animate-on-scroll">
-      <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
-        Milestones
-      </span>
-      <h2 class="text-4xl font-black font-display tracking-tight">Career Achievements</h2>
+    <div class="section-header animate-on-scroll">
+      <span class="about-badge">Milestones</span>
+      <h2 class="section-title">Career Achievements</h2>
     </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5" id="achievements-grid">
+    <div class="achievements-grid" id="achievements-grid">
       {% for a in achievements %}
-      <div class="flex gap-4 p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 hover:border-teal-400/50 hover:shadow-lg transition-all animate-on-scroll achievement-card">
-        <div class="w-12 h-12 rounded-xl bg-teal-50 dark:bg-teal-900/30 flex items-center justify-center flex-shrink-0">
-          <i class="fas {{ a.icon|default:'fa-trophy' }} text-teal-600 dark:text-teal-400"></i>
+      <div class="achievement-card animate-on-scroll">
+        <div class="achievement-icon">
+          <i class="fas {{ a.icon|default:'fa-trophy' }}"></i>
         </div>
-        <div>
-          <div class="font-mono text-xs text-teal-600 dark:text-teal-400 font-bold mb-1">{{ a.year }}</div>
-          <div class="font-bold text-sm text-gray-900 dark:text-white mb-1">{{ a.title }}</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed">{{ a.description }}</div>
+        <div class="achievement-body">
+          <div class="achievement-year">{{ a.year }}</div>
+          <div class="achievement-title">{{ a.title }}</div>
+          <div class="achievement-desc">{{ a.description }}</div>
         </div>
       </div>
       {% empty %}
-      <p class="col-span-3 text-center text-gray-400 py-8">No achievements yet. Add via admin.</p>
+      <p class="empty-state">No achievements yet. Add via admin.</p>
       {% endfor %}
     </div>
 
@@ -247,23 +228,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  /* Grid background for hero — avoids inline style attribute */
-  var heroBg = document.querySelector('.about-grid-bg');
-  if (heroBg) {
-    heroBg.style.backgroundImage = 'linear-gradient(rgba(13,148,136,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,0.04) 1px,transparent 1px)';
-    heroBg.style.backgroundSize = '48px 48px';
-  }
-
-  /* Bio column stagger delay */
-  var bioCol = document.querySelector('.about-bio-col');
-  if (bioCol) {
-    bioCol.style.transitionDelay = '100ms';
-  }
-
-  /* Achievement cards stagger delay */
-  document.querySelectorAll('.achievement-card').forEach(function (card, index) {
-    card.style.transitionDelay = (index * 100) + 'ms';
-  });
-</script>
+<script src="{% static 'core/js/about.js' %}"></script>
 {% endblock %}

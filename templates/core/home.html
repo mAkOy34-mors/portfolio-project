@@ -1,80 +1,72 @@
 {% extends 'base.html' %}
 {% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'core/css/home.css' %}">
+{% endblock %}
+
 {% block title %}{% if profile %}{{ profile.name }} — {{ profile.title }}{% endif %}{% endblock %}
 
 {% block content %}
 
-<!-- ── HERO ─────────────────────────────────────────────────────────────── -->
-<section class="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950">
+<!-- Hero -->
+<section class="hero-section">
 
-  <!-- Animated blobs -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <div class="absolute -top-40 -right-32 w-96 h-96 bg-teal-300/30 dark:bg-teal-700/20 rounded-full filter blur-3xl animate-blob blob-1"></div>
-    <div class="absolute -bottom-32 -left-32 w-96 h-96 bg-indigo-300/30 dark:bg-indigo-700/20 rounded-full filter blur-3xl animate-blob blob-2"></div>
-    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-teal-200/20 dark:bg-teal-800/10 rounded-full filter blur-3xl animate-blob blob-3"></div>
-    <div class="absolute inset-0 hero-grid-bg"></div>
+  <!-- Background blobs -->
+  <div class="hero-bg">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+    <div class="hero-grid-bg"></div>
   </div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 flex flex-col lg:flex-row items-center gap-16">
+  <div class="hero-container">
 
     <!-- Text Side -->
-    <div class="lg:w-1/2 text-center lg:text-left animate-on-scroll">
+    <div class="hero-text animate-on-scroll">
 
       {% if profile and profile.is_available %}
-      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-semibold
-                  bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-400
-                  border border-green-200 dark:border-green-700/60 mb-6">
-        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+      <div class="availability-badge">
+        <span class="pulse-dot"></span>
         Open to new opportunities
       </div>
       {% endif %}
 
-      <p class="font-mono text-teal-600 dark:text-teal-400 text-sm mb-2 tracking-wide">Hello, I'm</p>
-      <h1 class="text-5xl md:text-7xl font-black font-display tracking-tight mb-4 leading-none
-                 bg-clip-text text-transparent bg-gradient-to-r from-gray-900 via-teal-800 to-indigo-700
-                 dark:from-white dark:via-teal-200 dark:to-indigo-300">
+      <p class="hero-greeting">Hello, I'm</p>
+      <h1 class="hero-name">
         {% if profile %}{{ profile.name }}{% else %}Alexander Reid{% endif %}
       </h1>
-      <h2 class="text-xl md:text-2xl font-semibold text-teal-600 dark:text-teal-400 mb-4">
+      <h2 class="hero-title">
         {% if profile %}{{ profile.title }}{% else %}Senior Full Stack Engineer{% endif %}
       </h2>
-      <p class="text-lg text-gray-600 dark:text-gray-400 leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
+      <p class="hero-tagline">
         {% if profile %}{{ profile.tagline }}{% endif %}
       </p>
 
-      <!-- Stats bar -->
-      <div class="flex justify-center lg:justify-start gap-8 mb-10">
-        <div class="text-center">
-          <div class="text-3xl font-black text-gray-900 dark:text-white font-display">
-            {% if profile %}{{ profile.years_experience }}{% else %}20{% endif %}+
-          </div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-0.5">Years Exp</div>
+      <!-- Stats -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-number">{% if profile %}{{ profile.years_experience }}{% else %}20{% endif %}</div>
+          <div class="stat-label">Years Exp</div>
         </div>
-        <div class="w-px bg-gray-200 dark:bg-gray-700"></div>
-        <div class="text-center">
-          <div class="text-3xl font-black text-gray-900 dark:text-white font-display">2</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-0.5">Projects</div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Projects</div>
         </div>
-        <div class="w-px bg-gray-200 dark:bg-gray-700"></div>
-        <div class="text-center">
-          <div class="text-3xl font-black text-gray-900 dark:text-white font-display">0</div>
-          <div class="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider mt-0.5">Countries</div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-number">0</div>
+          <div class="stat-label">Countries</div>
         </div>
       </div>
 
-      <div class="flex flex-wrap justify-center lg:justify-start gap-3">
-        <a href="{% url 'projects' %}"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-                  bg-teal-600 text-white hover:bg-teal-700 shadow-lg shadow-teal-500/25
-                  transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-teal-500/30">
-          <i class="fas fa-laptop-code text-xs"></i> View Projects
+      <div class="hero-actions">
+        <a href="{% url 'projects' %}" class="btn-primary">
+          <i class="fas fa-laptop-code"></i> View Projects
         </a>
-        <a href="{% url 'contact' %}"
-           class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-                  border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300
-                  hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400
-                  transition-all duration-200 hover:-translate-y-0.5">
-          <i class="fas fa-envelope text-xs"></i> Contact Me
+        <a href="{% url 'contact' %}" class="btn-outline">
+          <i class="fas fa-envelope"></i> Contact Me
         </a>
       </div>
 
@@ -82,36 +74,25 @@
     <!-- end text side -->
 
     <!-- Avatar Side -->
-    <div class="lg:w-1/2 flex justify-center relative animate-on-scroll hero-avatar-col">
-      <div class="relative">
+    <div class="hero-avatar animate-on-scroll hero-avatar-col">
+      <div class="avatar-wrap">
 
-        <!-- Rings -->
-        <div class="absolute inset-0 rounded-full border border-teal-500/20 scale-125 animate-pulse"></div>
-        <div class="absolute inset-0 rounded-full border border-teal-500/10 scale-150"></div>
+        <div class="avatar-ring ring-1"></div>
+        <div class="avatar-ring ring-2"></div>
 
         {% if profile and profile.profile_photo %}
-        <div class="relative group">
-          <div class="absolute inset-0 bg-gradient-to-br from-teal-500 to-indigo-600 rounded-full blur-2xl opacity-30 group-hover:opacity-50 transition-all duration-500"></div>
-          <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}"
-               class="relative w-64 h-64 md:w-80 md:h-80 rounded-full object-cover shadow-2xl
-                      border-4 border-white dark:border-gray-800
-                      transform transition duration-500 group-hover:scale-105">
+        <div class="avatar-photo-wrap">
+          <div class="avatar-glow"></div>
+          <img src="{{ profile.profile_photo.url }}" alt="{{ profile.name }}" class="avatar-photo">
         </div>
         {% else %}
-        <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full
-                    bg-gradient-to-br from-teal-500/20 to-indigo-500/20
-                    border-4 border-white/50 dark:border-gray-800
-                    flex items-center justify-center shadow-2xl">
-          <span class="text-6xl font-black text-teal-600 dark:text-teal-400 font-display">
-            {% if profile %}{{ profile.name|slice:":2" }}{% else %}AR{% endif %}
-          </span>
+        <div class="avatar-placeholder">
+          <span>{% if profile %}{{ profile.name|slice:":2" }}{% else %}AR{% endif %}</span>
         </div>
         {% endif %}
 
-        <!-- Available badge -->
-        <div class="absolute bottom-4 right-4 w-12 h-12 bg-green-500 rounded-full
-                    flex items-center justify-center border-4 border-white dark:border-gray-900 shadow-lg">
-          <i class="fas fa-check text-white text-sm"></i>
+        <div class="available-badge">
+          <i class="fas fa-check"></i>
         </div>
 
       </div>
@@ -121,104 +102,75 @@
   </div>
 
   <!-- Scroll cue -->
-  <a href="#featured"
-     class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-xs text-gray-400 hover:text-teal-600 transition-colors">
-    <span class="uppercase tracking-widest font-mono">Scroll</span>
-    <i class="fas fa-chevron-down animate-bounce"></i>
+  <a href="#featured" class="scroll-cue">
+    <span>Scroll</span>
+    <i class="fas fa-chevron-down"></i>
   </a>
 
 </section>
 
-<!-- ── FEATURED PROJECTS ─────────────────────────────────────────────────── -->
-<section class="py-24 bg-white dark:bg-gray-950" id="featured">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Featured Projects -->
+<section class="featured-section" id="featured">
+  <div class="home-container">
 
-    <div class="text-center mb-16 animate-on-scroll">
-      <span class="inline-block font-mono text-xs font-semibold uppercase tracking-widest text-teal-600 dark:text-teal-400 bg-teal-50 dark:bg-teal-900/30 px-3 py-1.5 rounded-full mb-4">
-        Selected Work
-      </span>
-      <h2 class="text-4xl md:text-5xl font-black font-display tracking-tight mb-4">Featured Projects</h2>
-      <p class="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">Enterprise-grade systems built at scale, trusted by industry leaders.</p>
+    <div class="section-header animate-on-scroll">
+      <span class="home-badge">Selected Work</span>
+      <h2 class="section-title">Featured Projects</h2>
+      <p class="section-sub">Enterprise-grade systems built at scale, trusted by industry leaders.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="projects-grid">
       {% for project in featured_projects %}
-      <article class="featured-card group relative flex flex-col bg-white/60 dark:bg-gray-900/60 backdrop-blur-sm
-                      rounded-2xl border border-gray-200 dark:border-gray-800
-                      hover:border-teal-500/50 dark:hover:border-teal-500/30
-                      shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5
-                      overflow-hidden animate-on-scroll">
+      <article class="project-card featured-card animate-on-scroll">
 
-        <div class="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-indigo-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+        <div class="card-glow"></div>
 
-        <div class="relative h-44 overflow-hidden bg-gradient-to-br from-teal-500/10 to-indigo-500/10">
+        <div class="card-image">
           {% if project.image %}
-          <img src="{{ project.image.url }}" alt="{{ project.title }}"
-               class="w-full h-full object-cover transition duration-500 group-hover:scale-110">
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="card-img">
           {% else %}
-          <div class="w-full h-full flex items-center justify-center">
-            <i class="fas fa-cube text-5xl text-teal-300/50 dark:text-teal-700/50"></i>
+          <div class="card-img-placeholder">
+            <i class="fas fa-cube"></i>
           </div>
           {% endif %}
-          <div class="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+          <div class="card-overlay"></div>
 
-          <div class="absolute top-3 right-3">
+          <div class="card-status-wrap">
             {% if project.status == 'live' %}
-            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-green-100 text-green-700 dark:bg-green-900/60 dark:text-green-400">
-              {{ project.get_status_display }}
-            </span>
+            <span class="card-status status-live">{{ project.get_status_display }}</span>
             {% elif project.status == 'development' %}
-            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-yellow-100 text-yellow-700 dark:bg-yellow-900/60 dark:text-yellow-400">
-              {{ project.get_status_display }}
-            </span>
+            <span class="card-status status-dev">{{ project.get_status_display }}</span>
             {% else %}
-            <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400">
-              {{ project.get_status_display }}
-            </span>
+            <span class="card-status status-archived">{{ project.get_status_display }}</span>
             {% endif %}
           </div>
         </div>
 
-        <div class="relative flex flex-col flex-1 p-5">
-          <h3 class="font-bold font-display text-lg text-gray-900 dark:text-white mb-2 group-hover:text-teal-600 dark:group-hover:text-teal-400 transition-colors">
-            {{ project.title }}
-          </h3>
-          <p class="text-sm text-gray-500 dark:text-gray-400 leading-relaxed mb-4 flex-1">
-            {{ project.description|truncatechars:120 }}
-          </p>
+        <div class="card-body">
+          <h3 class="card-title">{{ project.title }}</h3>
+          <p class="card-desc">{{ project.description|truncatechars:120 }}</p>
 
-          <div class="flex flex-wrap gap-1.5 mb-4">
+          <div class="card-tags">
             {% for tech in project.tech_list|slice:":4" %}
-            <span class="px-2 py-0.5 text-xs font-semibold font-mono rounded-full
-                         bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300
-                         border border-indigo-100 dark:border-indigo-800/60">
-              {{ tech }}
-            </span>
+            <span class="tag">{{ tech }}</span>
             {% endfor %}
             {% if project.tech_list|length > 4 %}
-            <span class="px-2 py-0.5 text-xs text-gray-400 font-mono">
-              +{{ project.tech_list|length|add:"-4" }}
-            </span>
+            <span class="tag-more">+{{ project.tech_list|length|add:"-4" }}</span>
             {% endif %}
           </div>
 
-          <div class="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-800">
-            <a href="{% url 'project_detail' project.slug %}"
-               class="inline-flex items-center gap-1.5 text-sm font-semibold text-teal-600 dark:text-teal-400 hover:gap-2.5 transition-all">
-              Case Study <i class="fas fa-arrow-right text-xs"></i>
+          <div class="card-footer">
+            <a href="{% url 'project_detail' project.slug %}" class="card-link">
+              Case Study <i class="fas fa-arrow-right"></i>
             </a>
-            <div class="flex gap-2">
+            <div class="card-links">
               {% if project.github_link %}
-              <a href="{{ project.github_link }}" target="_blank" rel="noopener"
-                 class="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center
-                        text-gray-500 hover:text-gray-900 dark:hover:text-white hover:border-gray-400 transition-all text-sm">
+              <a href="{{ project.github_link }}" target="_blank" rel="noopener" class="icon-btn">
                 <i class="fab fa-github"></i>
               </a>
               {% endif %}
               {% if project.live_demo_link %}
-              <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener"
-                 class="w-8 h-8 rounded-lg border border-gray-200 dark:border-gray-700 flex items-center justify-center
-                        text-gray-500 hover:text-teal-600 dark:hover:text-teal-400 hover:border-teal-400 transition-all text-sm">
+              <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener" class="icon-btn">
                 <i class="fas fa-external-link-alt"></i>
               </a>
               {% endif %}
@@ -228,32 +180,27 @@
 
       </article>
       {% empty %}
-      <p class="col-span-3 text-center text-gray-400 py-12">No featured projects yet. Add them in the admin.</p>
+      <p class="empty-state">No featured projects yet. Add them in the admin.</p>
       {% endfor %}
     </div>
 
-    <div class="text-center mt-12 animate-on-scroll">
-      <a href="{% url 'projects' %}"
-         class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-sm
-                border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300
-                hover:border-teal-500 hover:text-teal-600 dark:hover:text-teal-400 transition-all hover:-translate-y-0.5">
-        View All Projects <i class="fas fa-arrow-right text-xs"></i>
+    <div class="section-cta animate-on-scroll">
+      <a href="{% url 'projects' %}" class="btn-outline">
+        View All Projects <i class="fas fa-arrow-right"></i>
       </a>
     </div>
 
   </div>
 </section>
 
-<!-- ── CTA BAND ──────────────────────────────────────────────────────────── -->
-<section class="py-20 bg-gradient-to-r from-teal-600 to-indigo-600 relative overflow-hidden">
-  <div class="absolute inset-0 cta-dot-bg"></div>
-  <div class="relative max-w-4xl mx-auto px-4 text-center animate-on-scroll">
-    <h2 class="text-3xl md:text-5xl font-black font-display text-white mb-4">Ready to build something extraordinary?</h2>
-    <p class="text-teal-100 text-lg mb-8">Let's discuss your next enterprise challenge.</p>
-    <a href="{% url 'contact' %}"
-       class="inline-flex items-center gap-2 px-8 py-4 rounded-xl font-bold text-base
-              bg-white text-teal-700 hover:bg-teal-50 shadow-xl transition-all hover:-translate-y-0.5">
-      <i class="fas fa-paper-plane text-sm"></i> Start a Conversation
+<!-- CTA Band -->
+<section class="cta-section">
+  <div class="cta-dot-bg"></div>
+  <div class="cta-content animate-on-scroll">
+    <h2 class="cta-title">Ready to build something extraordinary?</h2>
+    <p class="cta-sub">Let's discuss your next enterprise challenge.</p>
+    <a href="{% url 'contact' %}" class="btn-white">
+      <i class="fas fa-paper-plane"></i> Start a Conversation
     </a>
   </div>
 </section>
@@ -261,34 +208,5 @@
 {% endblock %}
 
 {% block extra_js %}
-<script>
-  /* Hero grid overlay */
-  const heroGrid = document.querySelector('.hero-grid-bg');
-  if (heroGrid) {
-    heroGrid.style.backgroundImage = 'linear-gradient(rgba(13,148,136,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(13,148,136,0.04) 1px,transparent 1px)';
-    heroGrid.style.backgroundSize = '48px 48px';
-  }
-
-  /* CTA dot pattern */
-  const ctaBg = document.querySelector('.cta-dot-bg');
-  if (ctaBg) {
-    ctaBg.style.backgroundImage = 'radial-gradient(rgba(255,255,255,0.1) 1px,transparent 1px)';
-    ctaBg.style.backgroundSize = '24px 24px';
-  }
-
-  /* Avatar column stagger */
-  const avatarCol = document.querySelector('.hero-avatar-col');
-  if (avatarCol) avatarCol.style.transitionDelay = '150ms';
-
-  /* Blob animation delays */
-  const blob2 = document.querySelector('.blob-2');
-  if (blob2) blob2.style.animationDelay = '2s';
-  const blob3 = document.querySelector('.blob-3');
-  if (blob3) blob3.style.animationDelay = '4s';
-
-  /* Featured project card stagger */
-  document.querySelectorAll('.featured-card').forEach(function (card, index) {
-    card.style.transitionDelay = (index * 100) + 'ms';
-  });
-</script>
+<script src="{% static 'core/js/home.js' %}"></script>
 {% endblock %}

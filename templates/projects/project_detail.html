@@ -1,87 +1,105 @@
 {% extends 'base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'project/css/project.css' %}">
+{% endblock %}
+
 {% block title %}{{ project.title }}{% endblock %}
+
 {% block content %}
 
-<div class="relative bg-gradient-to-br from-teal-50 via-white to-indigo-50 dark:from-gray-950 dark:via-gray-900 dark:to-indigo-950 pt-20 pb-16 border-b border-gray-100 dark:border-gray-800 overflow-hidden">
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 animate-on-scroll">
-    <a href="{% url 'projects' %}" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-teal-600 transition-colors mb-6">
-      <i class="fas fa-arrow-left text-xs"></i> All Projects
+<!-- Page Hero -->
+<div class="projects-hero">
+  <div class="projects-grid-bg"></div>
+  <div class="projects-container animate-on-scroll">
+    <a href="{% url 'projects' %}" class="back-link">
+      <i class="fas fa-arrow-left"></i> All Projects
     </a>
-    <div class="flex items-center gap-3 mb-3">
-      <span class="px-2 py-0.5 rounded-full text-xs font-bold
-        {% if project.status == 'live' %}bg-green-100 text-green-700
-        {% elif project.status == 'development' %}bg-yellow-100 text-yellow-700
-        {% else %}bg-gray-100 text-gray-600{% endif %}">{{ project.get_status_display }}</span>
+
+    <div class="detail-status-wrap">
+      {% if project.status == 'live' %}
+      <span class="card-status status-live">{{ project.get_status_display }}</span>
+      {% elif project.status == 'development' %}
+      <span class="card-status status-dev">{{ project.get_status_display }}</span>
+      {% else %}
+      <span class="card-status status-archived">{{ project.get_status_display }}</span>
+      {% endif %}
     </div>
-    <h1 class="text-4xl md:text-5xl font-black font-display tracking-tight mb-3">{{ project.title }}</h1>
+
+    <h1 class="projects-hero-title">{{ project.title }}</h1>
   </div>
 </div>
 
-<section class="py-16 bg-white dark:bg-gray-950">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+<!-- Detail Content -->
+<section class="projects-section">
+  <div class="projects-container">
+    <div class="detail-grid">
 
-      <!-- Main -->
-      <div class="lg:col-span-2 animate-on-scroll">
+      <!-- Main content -->
+      <div class="detail-main animate-on-scroll">
+
         {% if project.image %}
-        <div class="rounded-2xl overflow-hidden shadow-xl mb-8 border border-gray-200 dark:border-gray-800">
-          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full object-cover">
+        <div class="detail-image-wrap">
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="detail-image">
         </div>
         {% endif %}
 
-        <h2 class="text-2xl font-bold font-display mb-4">Project Overview</h2>
-        <div class="prose prose-gray dark:prose-invert max-w-none text-gray-600 dark:text-gray-300 leading-relaxed whitespace-pre-line text-sm">
+        <h2 class="detail-section-title">Project Overview</h2>
+        <div class="detail-description">
           {{ project.description }}
         </div>
+
       </div>
+      <!-- end main content -->
 
       <!-- Sidebar -->
-      <div class="animate-on-scroll" style="transition-delay:0.1s">
-        <div class="sticky top-24 space-y-4">
+      <div class="detail-sidebar animate-on-scroll detail-sidebar-col">
 
-          <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
-            <h3 class="font-bold font-display text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Tech Stack</h3>
-            <div class="flex flex-wrap gap-2">
-              {% for tech in project.tech_list %}
-              <span class="px-2.5 py-1 text-xs font-semibold font-mono rounded-full bg-indigo-50 text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300 border border-indigo-100 dark:border-indigo-800/60">{{ tech }}</span>
-              {% endfor %}
-            </div>
-          </div>
-
-          <div class="bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800 p-5">
-            <h3 class="font-bold font-display text-sm uppercase tracking-wider text-gray-500 dark:text-gray-400 mb-4">Links</h3>
-            <div class="space-y-2">
-              {% if project.github_link %}
-              <a href="{{ project.github_link }}" target="_blank" rel="noopener"
-                 class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all">
-                <i class="fab fa-github"></i> View on GitHub
-              </a>
-              {% endif %}
-              {% if project.live_demo_link %}
-              <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener"
-                 class="flex items-center gap-2.5 px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-teal-400 hover:text-teal-600 dark:hover:text-teal-400 transition-all">
-                <i class="fas fa-external-link-alt"></i> Live Demo
-              </a>
-              {% endif %}
-            </div>
+        <!-- Tech Stack -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-heading">Tech Stack</h3>
+          <div class="sidebar-tags">
+            {% for tech in project.tech_list %}
+            <span class="tag">{{ tech }}</span>
+            {% endfor %}
           </div>
         </div>
+
+        <!-- Links -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-heading">Links</h3>
+          <div class="sidebar-links">
+            {% if project.github_link %}
+            <a href="{{ project.github_link }}" target="_blank" rel="noopener" class="sidebar-link">
+              <i class="fab fa-github"></i> View on GitHub
+            </a>
+            {% endif %}
+            {% if project.live_demo_link %}
+            <a href="{{ project.live_demo_link }}" target="_blank" rel="noopener" class="sidebar-link">
+              <i class="fas fa-external-link-alt"></i> Live Demo
+            </a>
+            {% endif %}
+          </div>
+        </div>
+
       </div>
+      <!-- end sidebar -->
+
     </div>
 
+    <!-- Related Projects -->
     {% if related %}
-    <div class="mt-20 animate-on-scroll">
-      <h2 class="text-2xl font-bold font-display mb-8">More Projects</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="related-section animate-on-scroll">
+      <h2 class="related-title">More Projects</h2>
+      <div class="related-grid">
         {% for rp in related %}
-        <a href="{% url 'project_detail' rp.slug %}"
-           class="flex flex-col p-5 bg-gray-50 dark:bg-gray-900 rounded-2xl border border-gray-200 dark:border-gray-800
-                  hover:border-teal-400/50 hover:shadow-lg transition-all hover:-translate-y-1">
-          <h3 class="font-bold font-display text-base text-gray-900 dark:text-white mb-2">{{ rp.title }}</h3>
-          <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed flex-1 mb-3">{{ rp.description|truncatechars:80 }}</p>
-          <div class="flex flex-wrap gap-1">
+        <a href="{% url 'project_detail' rp.slug %}" class="related-card">
+          <h3 class="related-card-title">{{ rp.title }}</h3>
+          <p class="related-card-desc">{{ rp.description|truncatechars:80 }}</p>
+          <div class="related-tags">
             {% for tech in rp.tech_list|slice:":3" %}
-            <span class="px-1.5 py-0.5 text-xs font-mono rounded bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400">{{ tech }}</span>
+            <span class="related-tag">{{ tech }}</span>
             {% endfor %}
           </div>
         </a>
@@ -89,6 +107,12 @@
       </div>
     </div>
     {% endif %}
+
   </div>
 </section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script src="{% static 'project/js/project.js' %}"></script>
 {% endblock %}
