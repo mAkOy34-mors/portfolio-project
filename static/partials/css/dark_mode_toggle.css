@@ -22,16 +22,16 @@
 
 html.dark .theme-toggle-float {
   background: rgba(31, 41, 55, 0.9);
-  border-color: #374151;
+  border-color: #f97316;
   color: #fbbf24;
 }
 
 .theme-toggle-float:hover {
   transform: scale(1.1);
-  border-color: #0d9488;
+  border-color: #f97316;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
 }
 
 html.dark .theme-toggle-float:hover {
-  border-color: #2dd4bf;
+  border-color: #f97316;
 }
