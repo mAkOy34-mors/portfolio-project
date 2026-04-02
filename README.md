@@ -32,7 +32,7 @@ A production-grade personal portfolio website built with Django, showcasing clea
  **Deployment**  PythonAnywhere 
  **Version Control**  Git & GitHub 
 
-## 📁 Project Structure
+## Project Structure
 
 ```text
 portfolio_project/
