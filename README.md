@@ -32,27 +32,23 @@ A production-grade personal portfolio website built with Django, showcasing clea
  **Deployment**  PythonAnywhere 
  **Version Control**  Git & GitHub 
 
----
+## 📁 Project Structure
 
-## Project Structure
+```text
 portfolio_project/
 ├── manage.py
 ├── apps/
-│ ├── core/ # Home, About, Profile
-│ ├── skills/ # Skills model & views
-│ ├── projects/ # Projects with images
-│ ├── education/ # Education timeline
-│ └── contact/ # Contact form & messages
+│   ├── core/          # Home, About, Profile
+│   ├── skills/        # Skills model & views
+│   ├── projects/     # Projects with images
+│   ├── education/    # Education timeline
+│   └── contact/      # Contact form & messages
 ├── portfolio_project/ # Project settings
-├── static/ # CSS, JS, images
-├── templates/ # HTML templates
-├── media/ # User uploaded files
-└── requirements.txt # Dependencies
-
-text
-
----
-
+├── static/            # CSS, JS, images
+├── templates/         # HTML templates
+├── media/             # User uploaded files
+└── requirements.txt   # Dependencies
+```
 ## Setup Instructions
 
 ### 1. Clone the repository
