@@ -26,12 +26,13 @@ A production-grade personal portfolio website built with Django, showcasing clea
 
 ## Tech Stack
 
- -**Backend**  Django 4.2, Python 3.10+ 
- -**Frontend**  HTML5, CSS3, JavaScript
- -**Database** SQLite (development) 
- -**Deployment**  PythonAnywhere 
- -**Version Control**  Git & GitHub 
+ - **Backend**  Django 4.2, Python 3.10+ 
+ - **Frontend**  HTML5, CSS3, JavaScript
+ - **Database** SQLite (development) 
+ - **Deployment**  PythonAnywhere 
+ - **Version Control**  Git & GitHub 
 
+---
 ## Project Structure
 
 ```text
